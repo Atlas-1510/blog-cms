@@ -1,3 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .text-primary {
+    @apply text-blueGray-800;
+  }
+
+  .text-secondary {
+    @apply text-gray-500;
+  }
+  .text-highlight {
+    @apply text-indigo-600;
+  }
+
+  .bg-highlight {
+    @apply bg-indigo-600;
+  }
+
+  .nav-link {
+    @apply m-2 px-4 py-2 border-0 rounded-lg text-secondary hover:text-black cursor-pointer;
+  }
+
+  .active-nav-link {
+    @apply m-2 px-4 py-2 border-0 rounded-lg text-highlight cursor-pointer font-medium;
+  }
+
+  .username-input {
+    @apply border border-gray-300 rounded-lg py-1 px-2 text-secondary;
+  }
+
+  .form-label {
+    @apply text-primary py-1;
+  }
+
+  .highlight-button {
+    @apply nav-link bg-highlight text-white hover:text-white hover:bg-indigo-700;
+  }
+}

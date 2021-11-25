@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   mode: "jit",
   purge: [
@@ -8,7 +10,17 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        roboto: ["Roboto"],
+      },
+      gridTemplateColumns: {
+        cardLayout: "repeat(auto-fill, minmax(300px, 1fr))",
+      },
+      colors: {
+        blueGray: colors.blueGray,
+      },
+    },
   },
   variants: {
     extend: {},

@@ -40,7 +40,7 @@ function Header() {
       <div className="flex justify-between items-center">
         <h1 className="ml-4 text-xl text-secondary">Blog CMS</h1>
         <nav className="flex justify-end p-4">
-          <NavLink to="/signup" className="highlight-button">
+          <NavLink to="/signin" className="highlight-button">
             Sign In
           </NavLink>
         </nav>

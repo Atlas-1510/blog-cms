@@ -4,6 +4,7 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import { b64utoutf8, KJUR } from "jsrsasign";
 import Main from "./Main/Main";
 import SignIn from "./SignIn/SignIn";
+import Footer from "./Footer/Footer";
 
 export const UserContext = createContext(null);
 
@@ -24,13 +25,14 @@ function App() {
 
   return (
     <UserContext.Provider value={user}>
-      <div className="font-roboto">
+      <div className="font-roboto min-h-[90vh] bg-blueGray-100 flex">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={user ? <Main /> : <SignIn />} />
           </Routes>
         </BrowserRouter>
       </div>
+      <Footer />
     </UserContext.Provider>
   );
 }

@@ -1,39 +1,46 @@
 import { createContext, useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import PublicPage from "./PublicPage/PublicPage";
+import SignIn from "./SignIn/SignIn";
+import Article from "./Article/Article";
+import ArticlesOverview from "./ArticlesOverview/ArticlesOverview";
+import RequireAuth from "./RequireAuth/RequireAuth";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { b64utoutf8, KJUR } from "jsrsasign";
-import Main from "./Main/Main";
-import SignIn from "./SignIn/SignIn";
-import Footer from "./Footer/Footer";
+import Layout from "./Layout/Layout";
 
-export const UserContext = createContext(null);
+export const AuthContext = createContext(null);
 
 function App() {
-  const [user, setUser] = useState(null);
-  const { storedValue, clearValue } = useLocalStorage("jwt-cms", null);
+  const [auth, setAuth] = useState(true); // change back to null
+  // const { storedValue, clearValue } = useLocalStorage("jwt-cms", null);
 
-  useEffect(() => {
-    if (storedValue) {
-      const payload = KJUR.jws.JWS.readSafeJSONString(
-        b64utoutf8(storedValue.split(".")[1])
-      ).tokenPayload;
-      setUser(payload);
-    } else {
-      setUser(null);
-    }
-  }, [storedValue]);
+  // useEffect(() => {
+  //   if (storedValue) {
+  //     const payload = KJUR.jws.JWS.readSafeJSONString(
+  //       b64utoutf8(storedValue.split(".")[1])
+  //     ).tokenPayload;
+  //     setAuth(payload);
+  //   } else {
+  //     setAuth(null);
+  //   }
+  // }, [storedValue]);
 
   return (
-    <UserContext.Provider value={user}>
-      <div className="font-roboto min-h-[90vh] bg-blueGray-100 flex">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={user ? <Main /> : <SignIn />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-      <Footer />
-    </UserContext.Provider>
+    <AuthContext.Provider value={auth}>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<PublicPage />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/articles">
+              <Route path=":articleID" element={<Article />} />
+              <Route index element={<ArticlesOverview />} />
+            </Route>
+          </Route>
+        </Route>
+      </Routes>
+    </AuthContext.Provider>
   );
 }
 

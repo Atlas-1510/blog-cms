@@ -14,8 +14,8 @@ function useLocalStorage(key, initialValue) {
   const setValue = useCallback(
     (value) => {
       try {
-        setStoredValue(value);
         window.localStorage.setItem(key, JSON.stringify(value));
+        setStoredValue(value);
       } catch (err) {
         console.log(err);
       }
@@ -25,8 +25,8 @@ function useLocalStorage(key, initialValue) {
 
   const clearValue = () => {
     try {
-      setStoredValue(null);
       window.localStorage.removeItem(key);
+      setStoredValue(null);
     } catch (err) {
       console.log(err);
     }

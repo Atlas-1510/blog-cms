@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../App";
 
-function Header() {
+function Header({ clearValue }) {
   const auth = useContext(AuthContext);
 
   const handleSignOut = (e) => {
     e.preventDefault();
-    // clearValue()
+    clearValue();
     console.log("Activated clearValue function");
   };
 

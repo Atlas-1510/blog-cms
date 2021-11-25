@@ -6,32 +6,30 @@ import Article from "./Article/Article";
 import ArticlesOverview from "./ArticlesOverview/ArticlesOverview";
 import RequireAuth from "./RequireAuth/RequireAuth";
 import useLocalStorage from "./hooks/useLocalStorage";
-import { b64utoutf8, KJUR } from "jsrsasign";
+import unpackJWT from "./utils/unpackJWT";
 import Layout from "./Layout/Layout";
 
 export const AuthContext = createContext(null);
 
 function App() {
-  const [auth, setAuth] = useState(true); // change back to null
-  // const { storedValue, clearValue } = useLocalStorage("jwt-cms", null);
+  const { storedValue, setValue, clearValue } = useLocalStorage(
+    "jwt-cms",
+    null
+  );
+  const [auth, setAuth] = useState(() => {
+    return storedValue ? unpackJWT(storedValue) : null;
+  });
 
-  // useEffect(() => {
-  //   if (storedValue) {
-  //     const payload = KJUR.jws.JWS.readSafeJSONString(
-  //       b64utoutf8(storedValue.split(".")[1])
-  //     ).tokenPayload;
-  //     setAuth(payload);
-  //   } else {
-  //     setAuth(null);
-  //   }
-  // }, [storedValue]);
+  useEffect(() => {
+    storedValue ? setAuth(unpackJWT(storedValue)) : setAuth(null);
+  }, [storedValue]);
 
   return (
     <AuthContext.Provider value={auth}>
       <Routes>
-        <Route element={<Layout />}>
+        <Route path="/signin" element={<SignIn setValue={setValue} />} />
+        <Route element={<Layout clearValue={clearValue} />}>
           <Route path="/" element={<PublicPage />} />
-          <Route path="/signin" element={<SignIn />} />
           <Route element={<RequireAuth />}>
             <Route path="/articles">
               <Route path=":articleID" element={<Article />} />

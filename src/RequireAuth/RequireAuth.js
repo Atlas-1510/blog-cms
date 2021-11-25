@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../App";
 import { Navigate, useLocation, Outlet } from "react-router-dom";
 
-function RequireAuth({ children }) {
+function RequireAuth() {
   const auth = useContext(AuthContext);
   const location = useLocation();
 

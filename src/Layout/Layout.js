@@ -3,10 +3,10 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import { Outlet } from "react-router";
 
-function Layout() {
+function Layout({ clearValue }) {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header clearValue={clearValue} />
       <div className="flex-grow flex">
         <Outlet />
       </div>

@@ -16,6 +16,7 @@ import axios from "axios";
 import useLocalStorage from "../hooks/useLocalStorage";
 import tinymce from "tinymce/tinymce";
 import CommentsContainer from "../CommentsContainer/CommentsContainer";
+import "tinymce/plugins/lists";
 
 // https://dev.to/rafaaraujoo/how-to-setup-tinymce-react-4aka
 
@@ -208,7 +209,7 @@ function Article() {
                 "@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap'); body { font-family: Roboto; }",
               height: 600,
               menubar: false,
-              plugins: ["link image", "table paste"],
+              plugins: ["link", "image", "table", "paste", "lists"],
               toolbar:
                 "undo redo | formatselect | fontselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat",
             }}

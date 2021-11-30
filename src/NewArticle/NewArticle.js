@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useReducer } from "react";
 import "tinymce/tinymce";
 import "tinymce/icons/default";
 import "tinymce/themes/silver";
@@ -133,7 +133,7 @@ function NewArticle() {
             "@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap'); body { font-family: Roboto; }",
           height: 600,
           menubar: false,
-          plugins: ["link image", "table paste"],
+          plugins: ["link image", "table paste", "lists"],
           toolbar:
             "undo redo | formatselect | fontselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat",
         }}

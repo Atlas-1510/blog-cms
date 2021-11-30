@@ -8,6 +8,7 @@ import RequireAuth from "./RequireAuth/RequireAuth";
 import useLocalStorage from "./hooks/useLocalStorage";
 import unpackJWT from "./utils/unpackJWT";
 import Layout from "./Layout/Layout";
+import NewArticle from "./NewArticle/NewArticle";
 
 export const AuthContext = createContext(null);
 
@@ -33,6 +34,7 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path="/articles">
               <Route path=":articleID" element={<Article />} />
+              <Route path="new" element={<NewArticle />} />
               <Route index element={<ArticlesOverview />} />
             </Route>
           </Route>

@@ -21,7 +21,7 @@
   }
 
   .nav-link {
-    @apply m-2 px-4 py-2 border-0 rounded-lg text-secondary hover:text-black cursor-pointer;
+    @apply m-2 px-4 py-2 border-0 rounded-lg text-secondary hover:text-black cursor-pointer transition-all;
   }
 
   .active-nav-link {

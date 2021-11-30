@@ -8,7 +8,6 @@ function Header({ clearValue }) {
   const handleSignOut = (e) => {
     e.preventDefault();
     clearValue();
-    console.log("Activated clearValue function");
   };
 
   if (auth) {

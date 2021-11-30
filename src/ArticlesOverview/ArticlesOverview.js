@@ -37,7 +37,9 @@ function ArticlesOverview() {
           {isError && <p>Something went wrong</p>}
           {!isError &&
             articles &&
-            articles.map((article) => <Card article={article} />)}
+            articles.map((article) => (
+              <Card key={article._id} article={article} />
+            ))}
         </div>
       </div>
     </div>

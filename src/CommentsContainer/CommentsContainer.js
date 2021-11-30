@@ -15,7 +15,6 @@ function CommentsContainer({
           articleID,
         },
       });
-      console.log(result);
       setComments(result.data);
     }
     if (triggerGetComments) {
@@ -28,6 +27,7 @@ function CommentsContainer({
       {comments &&
         comments.map((comment) => (
           <Comment
+            key={comment._id}
             comment={comment}
             setTriggerGetComments={setTriggerGetComments}
           />

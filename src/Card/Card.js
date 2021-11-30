@@ -7,7 +7,7 @@ function Article({ article }) {
   const formattedDate = getFormattedDate(article.date);
   return (
     <Link key={article._id} to={`/articles/${article._id}`}>
-      <div className="w-[300px] h-96 border-0 rounded-lg overflow-hidden shadow-lg flex flex-col bg-white">
+      <div className="w-[300px] h-96 border-0 rounded-lg overflow-hidden shadow-lg flex flex-col bg-white my-4">
         <div
           className="w-full h-32 bg-center bg-cover"
           style={{ backgroundImage: `url(${testImage})` }}

@@ -15,6 +15,7 @@ import useAxios from "../hooks/useAxios";
 import axios from "axios";
 import useLocalStorage from "../hooks/useLocalStorage";
 import tinymce from "tinymce/tinymce";
+import CommentsContainer from "../CommentsContainer/CommentsContainer";
 
 // https://dev.to/rafaaraujoo/how-to-setup-tinymce-react-4aka
 
@@ -44,6 +45,8 @@ function Article() {
     setDescription(article.description);
     setContent(article.content);
   }, [article]);
+
+  const [triggerGetComments, setTriggerGetComments] = useState(true);
 
   const [flash, dispatch] = useReducer(flashReducer, "");
 
@@ -163,10 +166,10 @@ function Article() {
   };
 
   return (
-    <div>
+    <div className="w-10/12 flex flex-col items-center">
       {isError && <p>Something went wrong</p>}
       {!isError && (
-        <div>
+        <div className="w-5/6">
           <div className="text-highlight my-2">
             <p className="empty:h-6">{flash}</p>
           </div>
@@ -240,6 +243,11 @@ function Article() {
           </div>
         </div>
       )}
+      <CommentsContainer
+        articleID={params.articleID}
+        triggerGetComments={triggerGetComments}
+        setTriggerGetComments={setTriggerGetComments}
+      />
     </div>
   );
 }

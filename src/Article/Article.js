@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "tinymce/tinymce";
 import "tinymce/icons/default";
 import "tinymce/themes/silver";
@@ -10,16 +10,74 @@ import "tinymce/skins/ui/oxide/skin.min.css";
 import "tinymce/skins/ui/oxide/content.min.css";
 import "tinymce/skins/content/default/content.min.css";
 import { Editor } from "@tinymce/tinymce-react";
+import { useParams } from "react-router";
+import useAxios from "../hooks/useAxios";
+import axios from "axios";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 // https://dev.to/rafaaraujoo/how-to-setup-tinymce-react-4aka
 
 function Article() {
-  const [content, setContent] = useState();
+  const params = useParams();
+  const { storedValue: token } = useLocalStorage("jwt-cms", null);
+  const { result: article, error: isError } = useAxios(
+    `http://localhost:1015/articles/${params.articleID}`
+  );
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    setTitle(article.title);
+    setDescription(article.description);
+    setContent(article.content);
+  }, [article]);
+
+  const publishArticle = async () => {
+    try {
+      const result = await axios.put(
+        `http://localhost:1015/articles/${params.articleID}`,
+        {
+          title,
+          description,
+          content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
+      <form className="flex flex-col items-start my-4">
+        <div className="w-full">
+          <label className="text-2xl text-primary">Title</label>
+          <input
+            type="text"
+            className="border border-gray-300 rounded-lg py-1 px-2 text-secondary w-full mt-2"
+            value={title || ""}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="my-4 w-full">
+          <label className="text-2xl text-primary">Description</label>
+          <input
+            type="text"
+            className="border border-gray-300 rounded-lg py-1 px-2 text-secondary w-full mt-2"
+            value={description || ""}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+      </form>
       <Editor
-        initialValue="<p>This is the initial content of the editor</p>"
+        initialValue={article.content}
         init={{
           skin: false,
           content_css: false,
@@ -36,11 +94,14 @@ function Article() {
         value={content}
         onEditorChange={(c) => setContent(c)}
       />
-      <div className="flex justify-end my-4">
+      <div className="flex justify-start my-4">
         <button className="nav-link bg-blue-400 text-white hover:text-white hover:bg-blue-500">
           Save
         </button>
-        <button className="nav-link bg-emerald-400 text-white hover:text-white hover:bg-emerald-500">
+        <button
+          onClick={publishArticle}
+          className="nav-link bg-emerald-400 text-white hover:text-white hover:bg-emerald-500"
+        >
           Save and publish
         </button>
         <button className="nav-link bg-red-400 text-white hover:text-white hover:bg-red-500">

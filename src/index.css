@@ -40,3 +40,7 @@
     @apply nav-link bg-highlight text-white hover:text-white hover:bg-indigo-700;
   }
 }
+
+body {
+  margin: 0 !important;
+}

@@ -5,9 +5,9 @@ import { Outlet } from "react-router";
 
 function Layout({ clearValue }) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen font-roboto bg-blueGray-100">
       <Header clearValue={clearValue} />
-      <div className="flex-grow flex">
+      <div className="flex-grow flex flex-col items-center min-w-[360px]">
         <Outlet />
       </div>
       <Footer />

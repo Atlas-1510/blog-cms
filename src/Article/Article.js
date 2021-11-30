@@ -10,7 +10,7 @@ import "tinymce/skins/ui/oxide/skin.min.css";
 import "tinymce/skins/ui/oxide/content.min.css";
 import "tinymce/skins/content/default/content.min.css";
 import { Editor } from "@tinymce/tinymce-react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxios from "../hooks/useAxios";
 import axios from "axios";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -55,6 +55,7 @@ function Article() {
           title,
           description,
           content,
+          isPublished: true,
         },
         {
           headers: {
@@ -74,6 +75,68 @@ function Article() {
         });
       }
       console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const unpublishArticle = async () => {
+    try {
+      dispatch({ type: "RESET" });
+      const result = await axios.put(
+        `http://localhost:1015/articles/${params.articleID}`,
+        {
+          title,
+          description,
+          content,
+          isPublished: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(result);
+      if (result.data.message) {
+        dispatch({ type: "FLASH", payload: result.data.message });
+      } else if (result.data.errors) {
+        const errors = result.data.errors.map((obj) => obj.msg);
+        dispatch({ type: "FLASH", payload: errors });
+      } else {
+        dispatch({
+          type: "FLASH",
+          payload: "Article has removed from public view.",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteArticle = async () => {
+    try {
+      dispatch({ type: "RESET" });
+      const result = await axios.delete(
+        `http://localhost:1015/articles/${params.articleID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (result.data.message) {
+        dispatch({ type: "FLASH", payload: result.data.message });
+      } else if (result.data.errors) {
+        const errors = result.data.errors.map((obj) => obj.msg);
+        dispatch({ type: "FLASH", payload: errors });
+      } else {
+        dispatch({
+          type: "FLASH",
+          payload: "Article has been deleted!",
+        });
+        setTimeout(() => window.location.replace("/"), 1000);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -132,7 +195,16 @@ function Article() {
         >
           Save and publish
         </button>
-        <button className="nav-link bg-red-400 text-white hover:text-white hover:bg-red-500">
+        <button
+          onClick={unpublishArticle}
+          className="nav-link bg-fuchsia-400 text-white hover:text-white hover:bg-fuchsia-500"
+        >
+          Unpublish
+        </button>
+        <button
+          onClick={deleteArticle}
+          className="nav-link bg-red-400 text-white hover:text-white hover:bg-red-500"
+        >
           Discard
         </button>
       </div>

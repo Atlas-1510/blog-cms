@@ -12,6 +12,7 @@ import "tinymce/skins/content/default/content.min.css";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import useLocalStorage from "../hooks/useLocalStorage";
+import tinymce from "tinymce/tinymce";
 
 // https://dev.to/rafaaraujoo/how-to-setup-tinymce-react-4aka
 
@@ -57,7 +58,7 @@ function NewArticle() {
         {
           title,
           description,
-          content,
+          content: tinymce.activeEditor.getContent(),
           isPublished: false,
         },
         {
@@ -81,7 +82,7 @@ function NewArticle() {
         {
           title,
           description,
-          content,
+          content: tinymce.activeEditor.getContent(),
           isPublished: true,
         },
         {

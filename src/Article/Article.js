@@ -14,6 +14,7 @@ import { useParams } from "react-router";
 import useAxios from "../hooks/useAxios";
 import axios from "axios";
 import useLocalStorage from "../hooks/useLocalStorage";
+import tinymce from "tinymce/tinymce";
 
 // https://dev.to/rafaaraujoo/how-to-setup-tinymce-react-4aka
 
@@ -68,7 +69,7 @@ function Article() {
         {
           title,
           description,
-          content,
+          content: tinymce.activeEditor.getContent(),
           isPublished: false,
         },
         {
@@ -92,7 +93,7 @@ function Article() {
         {
           title,
           description,
-          content,
+          content: tinymce.activeEditor.getContent(),
           isPublished: true,
         },
         {
@@ -116,7 +117,7 @@ function Article() {
         {
           title,
           description,
-          content,
+          content: tinymce.activeEditor.getContent(),
           isPublished: false,
         },
         {
@@ -190,8 +191,12 @@ function Article() {
             </div>
           </form>
           <Editor
-            initialValue={article.content}
             init={{
+              setup: (editor) => {
+                editor.on("init", function (e) {
+                  editor.setContent(article.content || "");
+                });
+              },
               skin: false,
               content_css: false,
               font_formats:

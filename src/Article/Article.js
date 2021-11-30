@@ -46,6 +46,40 @@ function Article() {
 
   const [flash, dispatch] = useReducer(flashReducer, "");
 
+  const saveArticle = async () => {
+    try {
+      dispatch({ type: "RESET" });
+      const result = await axios.put(
+        `http://localhost:1015/articles/${params.articleID}`,
+        {
+          title,
+          description,
+          content,
+          isPublished: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (result.data.message) {
+        dispatch({ type: "FLASH", payload: result.data.message });
+      } else if (result.data.errors) {
+        const errors = result.data.errors.map((obj) => obj.msg);
+        dispatch({ type: "FLASH", payload: errors });
+      } else {
+        dispatch({
+          type: "FLASH",
+          payload: "Article has been saved!",
+        });
+      }
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const publishArticle = async () => {
     try {
       dispatch({ type: "RESET" });
@@ -186,7 +220,10 @@ function Article() {
         onEditorChange={(c) => setContent(c)}
       />
       <div className="flex justify-start my-4">
-        <button className="nav-link bg-blue-400 text-white hover:text-white hover:bg-blue-500">
+        <button
+          onClick={saveArticle}
+          className="nav-link bg-blue-400 text-white hover:text-white hover:bg-blue-500"
+        >
           Save
         </button>
         <button

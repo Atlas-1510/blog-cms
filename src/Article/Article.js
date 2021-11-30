@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import "tinymce/tinymce";
 import "tinymce/icons/default";
 import "tinymce/themes/silver";
@@ -17,6 +17,17 @@ import useLocalStorage from "../hooks/useLocalStorage";
 
 // https://dev.to/rafaaraujoo/how-to-setup-tinymce-react-4aka
 
+const flashReducer = (state, action) => {
+  switch (action.type) {
+    case "FLASH":
+      return action.payload || false;
+    case "RESET":
+      return "";
+    default:
+      throw new Error("Reducer dispatch type not found");
+  }
+};
+
 function Article() {
   const params = useParams();
   const { storedValue: token } = useLocalStorage("jwt-cms", null);
@@ -33,8 +44,11 @@ function Article() {
     setContent(article.content);
   }, [article]);
 
+  const [flash, dispatch] = useReducer(flashReducer, "");
+
   const publishArticle = async () => {
     try {
+      dispatch({ type: "RESET" });
       const result = await axios.put(
         `http://localhost:1015/articles/${params.articleID}`,
         {
@@ -48,6 +62,17 @@ function Article() {
           },
         }
       );
+      if (result.data.message) {
+        dispatch({ type: "FLASH", payload: result.data.message });
+      } else if (result.data.errors) {
+        const errors = result.data.errors.map((obj) => obj.msg);
+        dispatch({ type: "FLASH", payload: errors });
+      } else {
+        dispatch({
+          type: "FLASH",
+          payload: "Article has been saved and published!",
+        });
+      }
       console.log(result);
     } catch (err) {
       console.log(err);
@@ -56,7 +81,10 @@ function Article() {
 
   return (
     <div>
-      <form className="flex flex-col items-start my-4">
+      <div className="text-highlight my-2">
+        <p className="empty:h-6">{flash}</p>
+      </div>
+      <form className="flex flex-col items-start mb-4">
         <div className="w-full">
           <label className="text-2xl text-primary">Title</label>
           <input

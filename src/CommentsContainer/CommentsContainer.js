@@ -10,11 +10,14 @@ function CommentsContainer({
   const [comments, setComments] = useState([]);
   useEffect(() => {
     async function getComments() {
-      const result = await axios.get("http://localhost:1015/comments", {
-        params: {
-          articleID,
-        },
-      });
+      const result = await axios.get(
+        `http://localhost:${process.env.REACT_APP_API_PORT}/comments`,
+        {
+          params: {
+            articleID,
+          },
+        }
+      );
       setComments(result.data);
     }
     if (triggerGetComments) {

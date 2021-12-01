@@ -15,7 +15,7 @@ function ArticlesOverview() {
     [token]
   );
   const { result: articles, error: isError } = useAxios(
-    "http://localhost:1015/articles/overview",
+    `http://localhost:${process.env.REACT_APP_API_PORT}/articles/overview`,
     config
   );
 

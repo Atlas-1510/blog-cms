@@ -54,7 +54,7 @@ function NewArticle() {
     try {
       dispatch({ type: "RESET" });
       const result = await axios.post(
-        `http://localhost:1015/articles/`,
+        `http://localhost:${process.env.REACT_APP_API_PORT}/articles/`,
         {
           title,
           description,
@@ -78,7 +78,7 @@ function NewArticle() {
     try {
       dispatch({ type: "RESET" });
       const result = await axios.post(
-        `http://localhost:1015/articles/`,
+        `http://localhost:${process.env.REACT_APP_API_PORT}/articles/`,
         {
           title,
           description,

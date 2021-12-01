@@ -35,7 +35,7 @@ function Article() {
   const params = useParams();
   const { storedValue: token } = useLocalStorage("jwt-cms", null);
   const { result: article, error: isError } = useAxios(
-    `http://localhost:1015/articles/${params.articleID}`
+    `http://localhost:${process.env.REACT_APP_API_PORT}/articles/${params.articleID}`
   );
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -69,7 +69,7 @@ function Article() {
     try {
       dispatch({ type: "RESET" });
       const result = await axios.put(
-        `http://localhost:1015/articles/${params.articleID}`,
+        `http://localhost:${process.env.REACT_APP_API_PORT}/articles/${params.articleID}`,
         {
           title,
           description,
@@ -93,7 +93,7 @@ function Article() {
     try {
       dispatch({ type: "RESET" });
       const result = await axios.put(
-        `http://localhost:1015/articles/${params.articleID}`,
+        `http://localhost:${process.env.REACT_APP_API_PORT}/articles/${params.articleID}`,
         {
           title,
           description,
@@ -117,7 +117,7 @@ function Article() {
     try {
       dispatch({ type: "RESET" });
       const result = await axios.put(
-        `http://localhost:1015/articles/${params.articleID}`,
+        `http://localhost:${process.env.REACT_APP_API_PORT}/articles/${params.articleID}`,
         {
           title,
           description,
@@ -141,7 +141,7 @@ function Article() {
     try {
       dispatch({ type: "RESET" });
       const result = await axios.delete(
-        `http://localhost:1015/articles/${params.articleID}`,
+        `http://localhost:${process.env.REACT_APP_API_PORT}/articles/${params.articleID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -32,7 +32,7 @@ function SignIn({ setValue }) {
     }
     try {
       const result = await axios.post(
-        `http://localhost:${process.env.REACT_APP_API_PORT}/adminLogin`,
+        `${process.env.REACT_APP_API_LOCALHOST_PORT}/adminLogin`,
         {
           username,
           password,

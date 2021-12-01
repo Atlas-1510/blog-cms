@@ -11,7 +11,7 @@ function CommentsContainer({
   useEffect(() => {
     async function getComments() {
       const result = await axios.get(
-        `http://localhost:${process.env.REACT_APP_API_PORT}/comments`,
+        `${process.env.REACT_APP_API_LOCALHOST_PORT}/comments`,
         {
           params: {
             articleID,

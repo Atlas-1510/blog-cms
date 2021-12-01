@@ -10,7 +10,7 @@ function Comment({ comment, setTriggerGetComments }) {
   const deleteComment = async () => {
     try {
       const result = await axios.delete(
-        `http://localhost:${process.env.REACT_APP_API_PORT}/comments/${comment._id}`,
+        `${process.env.REACT_APP_API_LOCALHOST_PORT}/comments/${comment._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

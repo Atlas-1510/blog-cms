@@ -62,7 +62,7 @@ function SignIn({ setValue }) {
             Not an admin?
           </span>
           <a
-            href="http://localhost:3000"
+            href={`${process.env.REACT_APP_PUBLIC_URL}`}
             to="/signin"
             className="highlight-button"
           >
